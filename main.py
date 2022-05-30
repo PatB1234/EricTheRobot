@@ -11,11 +11,14 @@ while True:
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+    if len(faces) != 0:
+
+        print("FACES")
+
     for (x, y, w, h) in faces:
 
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 5)
-        roi_gray = gray[y:y + w, x:x + w]
-        roi_colour = frame[y:y + w, x:x + h]
 
     cv2.imshow("Camera", frame)
     if cv2.waitKey(1) == ord('q'):
