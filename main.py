@@ -1,34 +1,48 @@
 import cv2
+import smtplib
 import numpy as np
+import config
 
 cap = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_eye.xml")
 
-while True:
+def send_message(subject, body):
+    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
 
-    ret, frame = cap.read() 
+        smtp.login(config.EMAIL, config.PASSWORD)
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        smtp.sendmail()
 
-    # if len(faces) != 0:
+send_message('Test', 'hello are you getting this')
 
-    #     print("FACES")
+# while True:
 
-    for (x, y, w, h) in faces:
+#     ret, frame = cap.read() 
 
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 5)
-        roi_gray = gray[y:y+h, x:x+w]
-        roi_color = frame[y:y+h, x:x+w]
-        eyes = eye_cascade.detectMultiScale(roi_gray, 1.3, 5)
+#     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+#     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-        for (ex, ey, ew, eh) in eyes:
-          cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 5)
+#     # if len(faces) != 0:
 
-    cv2.imshow("Camera", frame)
-    if cv2.waitKey(1) == ord('q'):
-        break
+#     #     print("FACES")
 
-cap.release()
-cv2.destroyAllWindows()
+#     for (x, y, w, h) in faces:
+
+#         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 5)
+#         roi_gray = gray[y:y+h, x:x+w]
+#         roi_color = frame[y:y+h, x:x+w]
+#         eyes = eye_cascade.detectMultiScale(roi_gray, 1.3, 5)
+
+#         for (ex, ey, ew, eh) in eyes:
+#           cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 5)
+
+#     cv2.imshow("Camera", frame)
+#     if cv2.waitKey(1) == ord('q'):
+#         break
+
+# cap.release()
+# cv2.destroyAllWindows()
