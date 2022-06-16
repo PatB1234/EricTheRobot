@@ -15,34 +15,34 @@ def send_message(subject, body):
 
         smtp.login(config.EMAIL, config.PASSWORD)
 
-        smtp.sendmail()
+        smtp.sendmail(config.EMAIL, config.EMAIL, f"{subject}: {body}")
 
 send_message('Test', 'hello are you getting this')
 
-# while True:
+while True:
 
-#     ret, frame = cap.read() 
+    ret, frame = cap.read() 
 
-#     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-#     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-#     # if len(faces) != 0:
+    # if len(faces) != 0:
 
-#     #     print("FACES")
+    #     print("FACES")
 
-#     for (x, y, w, h) in faces:
+    for (x, y, w, h) in faces:
 
-#         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 5)
-#         roi_gray = gray[y:y+h, x:x+w]
-#         roi_color = frame[y:y+h, x:x+w]
-#         eyes = eye_cascade.detectMultiScale(roi_gray, 1.3, 5)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 5)
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = frame[y:y+h, x:x+w]
+        eyes = eye_cascade.detectMultiScale(roi_gray, 1.3, 5)
 
-#         for (ex, ey, ew, eh) in eyes:
-#           cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 5)
+        for (ex, ey, ew, eh) in eyes:
+          cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 5)
 
-#     cv2.imshow("Camera", frame)
-#     if cv2.waitKey(1) == ord('q'):
-#         break
+    cv2.imshow("Camera", frame)
+    if cv2.waitKey(1) == ord('q'):
+        break
 
-# cap.release()
-# cv2.destroyAllWindows()
+cap.release()
+cv2.destroyAllWindows()
